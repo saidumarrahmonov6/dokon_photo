@@ -22,8 +22,7 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
+  const MyApp({super.key,});
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -62,6 +61,13 @@ class _MyAppState extends State<MyApp> {
                   itemCount: snapshot.data!.size,
                   itemBuilder: (BuildContext context, int index) {
                     DocumentSnapshot document = snapshot.data!.docs[index];
+                    imageBlock(){
+                      if(document['image'] != ""){
+                        return Image.network(document['image']);
+                      } else {
+                        print("Rasm Yo'q");
+                      }
+                    }
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
@@ -102,7 +108,8 @@ class _MyAppState extends State<MyApp> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.network(document['image'] , height: 200, width: 100,),
+                              Container(child: imageBlock()),
+                              SizedBox(height: 10,),
                               Text(
                                 "Maxsulot nomi : ${document['maxsulotnomi']}",
                                 style: TextStyle(

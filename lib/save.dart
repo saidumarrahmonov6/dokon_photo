@@ -83,87 +83,104 @@ class _MyAppState extends State<AddApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Column(children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            controller: maxsulotnomi,
-            decoration: InputDecoration(
-                label: Text("Maxsulot nomi"), border: OutlineInputBorder()),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            controller: maxsulotsoni,
-            decoration: InputDecoration(
-                label: Text("Maxsulot soni"), border: OutlineInputBorder()),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            controller: maxsulotasl,
-            decoration: InputDecoration(
-                label: Text("Maxsulot asl narxi"), border: OutlineInputBorder()),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            controller: maxsulotnarxi,
-            decoration: InputDecoration(
-                label: Text("Maxsulot narxi"), border: OutlineInputBorder()),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-          width: MediaQuery.of(context).size.width,
-          child: MaterialButton(
-            onPressed: () {
-              setState(() {
-                uploadPhoto();
-              });
-            },
-            child: Text("Rasm yuklash"),
-            color: Colors.green,
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-          width: MediaQuery.of(context).size.width,
-          child: MaterialButton(
-            onPressed: () {
-              setState(() {
-                if(widget.textId != null){
-                  update();
-                } else {
-                  print("ADD funksiyasi ishladi");
-                  add();
-                }
-              });
-            },
-            child: Text("Saqlash"),
-            color: Colors.blue,
-          ),
-        ),
-      ]),
+      body: ListView(
+        children: [
+          Column(children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: maxsulotnomi,
+                decoration: InputDecoration(
+                    label: Text("Maxsulot nomi"), border: OutlineInputBorder()),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: maxsulotsoni,
+                decoration: InputDecoration(
+                    label: Text("Maxsulot soni"), border: OutlineInputBorder()),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: maxsulotasl,
+                decoration: InputDecoration(
+                    label: Text("Maxsulot asl narxi"), border: OutlineInputBorder()),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: maxsulotnarxi,
+                decoration: InputDecoration(
+                    label: Text("Maxsulot narxi"), border: OutlineInputBorder()),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+              width: MediaQuery.of(context).size.width,
+              child: MaterialButton(
+                onPressed: () {
+                  setState(() {
+                    uploadPhoto();
+                  });
+                },
+                child: Text("Rasm yuklash"),
+                color: Colors.green,
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+              width: MediaQuery.of(context).size.width,
+              child: MaterialButton(
+                onPressed: () {
+                  setState(() {
+                    if(widget.textId != null){
+                      update();
+                    } else {
+                      print("ADD funksiyasi ishladi");
+                      add();
+                    }
+                  });
+                },
+                child: Text("Saqlash"),
+                color: Colors.blue,
+              ),
+            ),
+          ]),
+        ],
+      ),
     );
   }
   add(){
-    if (imagelink != "" && maxsulotasl.text.length != 0 && maxsulotnarxi.text.length != 0 && maxsulotsoni.text.length != 0 && maxsulotnomi.text.length != 0) {
-      Map<String, dynamic> pupil = {
-        "image": imagelink,
-        "maxsulotnomi": maxsulotnomi.text,
-        "maxsulotsoni": maxsulotsoni.text,
-        "maxsulotasl": maxsulotasl.text,
-        "maxsulotnarxi": maxsulotnarxi.text,
-      };
-      maxsulotCollection.add(pupil);
+    if (maxsulotasl.text.length != 0 && maxsulotnarxi.text.length != 0 && maxsulotsoni.text.length != 0 && maxsulotnomi.text.length != 0) {
+      if(imagelink != ""){
+        Map<String, dynamic> pupil = {
+          "image": imagelink,
+          "maxsulotnomi": maxsulotnomi.text,
+          "maxsulotsoni": maxsulotsoni.text,
+          "maxsulotasl": maxsulotasl.text,
+          "maxsulotnarxi": maxsulotnarxi.text,
+        };
+        maxsulotCollection.add(pupil);
+      } else if(imagelink == ""){
+        imagelink == "";
+        Map<String, dynamic> pupil = {
+          "image": imagelink,
+          "maxsulotnomi": maxsulotnomi.text,
+          "maxsulotsoni": maxsulotsoni.text,
+          "maxsulotasl": maxsulotasl.text,
+          "maxsulotnarxi": maxsulotnarxi.text,
+        };
+        maxsulotCollection.add(pupil);
+      }
       maxsulotnarxi.clear();
       maxsulotasl.clear();
       maxsulotsoni.clear();
       maxsulotnomi.clear();
+      imagelink = "";
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.green,
           content: Text(
@@ -179,16 +196,27 @@ class _MyAppState extends State<AddApp> {
   }
   update(){
     if (maxsulotasl.text.length != 0 && maxsulotnarxi.text.length != 0 && maxsulotsoni.text.length != 0 && maxsulotnomi.text.length != 0) {
-      maxsulotCollection.doc(widget.textId).update({
-        "maxsulotnomi": maxsulotnomi.text,
-        "maxsulotsoni": maxsulotsoni.text,
-        "maxsulotasl": maxsulotasl.text,
-        "maxsulotnarxi": maxsulotnarxi.text,
-      });
+      if(imagelink == ""){
+        maxsulotCollection.doc(widget.textId).update({
+          "maxsulotnomi": maxsulotnomi.text,
+          "maxsulotsoni": maxsulotsoni.text,
+          "maxsulotasl": maxsulotasl.text,
+          "maxsulotnarxi": maxsulotnarxi.text,
+        });
+      } else if(imagelink != ""){
+        maxsulotCollection.doc(widget.textId).update({
+          "image": imagelink,
+          "maxsulotnomi": maxsulotnomi.text,
+          "maxsulotsoni": maxsulotsoni.text,
+          "maxsulotasl": maxsulotasl.text,
+          "maxsulotnarxi": maxsulotnarxi.text,
+        });
+      }
       maxsulotnarxi.clear();
       maxsulotasl.clear();
       maxsulotsoni.clear();
       maxsulotnomi.clear();
+      imagelink = "";
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.green,
           content: Text(
