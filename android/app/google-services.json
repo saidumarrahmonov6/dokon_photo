@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "571242125939",
+    "project_id": "dokon-fcaa8",
+    "storage_bucket": "dokon-fcaa8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571242125939:android:01512acf270850b8302806",
+        "android_client_info": {
+          "package_name": "com.example.dokon_photo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx6XvkbLFqvftkqCOcFW-2gtQZeQ_YUSU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571242125939:android:dd497eb1795198f7302806",
+        "android_client_info": {
+          "package_name": "com.example.dokon_uchun"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx6XvkbLFqvftkqCOcFW-2gtQZeQ_YUSU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571242125939:android:2e273ef8efdcbb52302806",
+        "android_client_info": {
+          "package_name": "com.example.untitled3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx6XvkbLFqvftkqCOcFW-2gtQZeQ_YUSU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
