@@ -36,6 +36,9 @@ class _MyAppState extends State<AddApp> {
   TextEditingController maxsulotsoni = TextEditingController();
   final CollectionReference maxsulotCollection = FirebaseFirestore.instance.collection("maxsulot");
   String imagelink ='';
+  String ImgPath = "";
+  CollectionReference instance = FirebaseFirestore.instance.collection("images");
+  final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   saveLink(Reference ref) async {
     var link = await ref.getDownloadURL();
     imagelink = link;
@@ -50,14 +53,14 @@ class _MyAppState extends State<AddApp> {
       try {
         xFile = await imagePicker.pickImage(source: ImageSource.gallery);
         File file = File(xFile?.path??"");
-        Reference ref =
-        firebaseStorage.ref("image").child("${file.path.split("/").last}");
+        Reference ref = firebaseStorage.ref("image").child("${file.path.split("/").last}");
+        print(ref);
         UploadTask snapshot = ref.putFile(file);
-
         snapshot.then((value) async{
           if(value.state == TaskState.success){
             saveLink(ref);
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Success")));
+            ImgPath = file.path.split("/").last;
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Yuklandi ✔")));
           } else {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error")));
           }
@@ -139,6 +142,7 @@ class _MyAppState extends State<AddApp> {
                   setState(() {
                     if(widget.textId != null){
                       update();
+
                     } else {
                       print("ADD funksiyasi ishladi");
                       add();
@@ -149,6 +153,7 @@ class _MyAppState extends State<AddApp> {
                 color: Colors.blue,
               ),
             ),
+
           ]),
         ],
       ),
@@ -159,13 +164,14 @@ class _MyAppState extends State<AddApp> {
       if(imagelink != ""){
         Map<String, dynamic> pupil = {
           "image": imagelink,
+          "path":ImgPath,
           "maxsulotnomi": maxsulotnomi.text,
           "maxsulotsoni": maxsulotsoni.text,
           "maxsulotasl": maxsulotasl.text,
           "maxsulotnarxi": maxsulotnarxi.text,
         };
         maxsulotCollection.add(pupil);
-      } else if(imagelink == ""){
+      } else if(imagelink == "") {
         imagelink == "";
         Map<String, dynamic> pupil = {
           "image": imagelink,
@@ -228,6 +234,16 @@ class _MyAppState extends State<AddApp> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.redAccent,
           content: Text("Bosh joylarni to'ldiring", style: TextStyle(color: Colors.white, fontSize: 30),
           )));
+    }
+  }
+  delatePh(document)async{
+    try {
+      Reference ref = firebaseStorage.ref(
+          'image/${document['path']}');
+      await ref.delete();
+      await instance.doc(document.id).delete();
+    } catch (e) {
+      print("Xatolik");
     }
   }
 }

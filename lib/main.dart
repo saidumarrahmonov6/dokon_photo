@@ -34,6 +34,8 @@ class _MyAppState extends State<MyApp> {
   TextEditingController maxsulotnarxiEdit = TextEditingController();
   CollectionReference maxsulotCollection =
   FirebaseFirestore.instance.collection("maxsulot");
+  CollectionReference instance = FirebaseFirestore.instance.collection("images");
+  FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,8 @@ class _MyAppState extends State<MyApp> {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
-                        onLongPress: () {
+                        onLongPress: ()async {
+                          delatePhoto(document);
                           maxsulotCollection.doc(document.id).delete();
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               backgroundColor: Colors.redAccent,
@@ -197,8 +200,7 @@ class _MyAppState extends State<MyApp> {
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AddApp()))
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AddApp()))
               .then((value) {
             setState(() {});
           });
@@ -206,5 +208,15 @@ class _MyAppState extends State<MyApp> {
         child: Icon(Icons.add),
       ),
     );
+  }
+  delatePhoto(document)async{
+    try {
+      Reference ref = firebaseStorage.ref('image/${document['path']}');
+      await ref.delete();
+      await instance.doc(document.id).delete();
+      print("Ochirildi");
+    } catch (e) {
+      print("Xatolik:$e");
+    }
   }
 }
