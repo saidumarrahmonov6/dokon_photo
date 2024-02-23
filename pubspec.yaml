@@ -42,6 +42,8 @@ dependencies:
   firebase_storage: ^11.6.5
   image_picker: ^1.0.7
   rename: ^3.0.1
+  firebase_crashlytics: ^3.4.15
+  firebase_analytics: ^10.8.6
 
 dev_dependencies:
   flutter_test:
