@@ -86,7 +86,6 @@ class _MyAppState extends State<MyApp> {
                               )));
                         },
                         onTap: () {
-                          throw Exception();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
